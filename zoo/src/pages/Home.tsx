@@ -1,23 +1,13 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonHeader, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Home.css';
+import AnimalList from '../components/AnimalList';
 
 const Home: React.FC = () => {
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Blank</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Blank</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer />
-      </IonContent>
+    <IonPage className='home-page'>
+      <IonLabel className='welcome-label'>WELCOME TO THE ZOO</IonLabel>
+      <AnimalList />
     </IonPage>
   );
 };

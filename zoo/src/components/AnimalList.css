@@ -1,0 +1,21 @@
+ion-item::part(native) {
+    background: #86c0de;
+    color: #000;
+    width: 70%; 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    gap: 10px; 
+}
+
+
+.animal-list {
+    width: "100%";
+    background-color: transparent;
+    /* display: flex; */
+    /* flex-direction: column; Stack items vertically */
+    align-items: center;
+    justify-content: flex-start; 
+}

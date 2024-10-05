@@ -1,0 +1,35 @@
+.animal-page{
+    background-color: #E5F3F7 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.animal-card{
+    width: 250px;
+    height: 380px;
+    border-radius: 25px;
+    border: 3px solid #98B3BD;
+    background-color: #BEE0EC;
+    color:#000;
+    padding: 20px;
+
+}
+
+.animal-card ion-card-title{
+    text-align: center;
+    color: #000;
+    margin-bottom: 50px;
+}
+
+.contentDiv{
+    width: 100%;
+    gap: 50%;
+    display: flex;
+    flex-direction: row;
+    margin: 40px 0px 100px 0px;
+}
+
+.wild-caution-label{
+    text-align: center;
+}

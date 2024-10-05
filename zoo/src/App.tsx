@@ -32,6 +32,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import AnimalDetailsPage from './pages/AnimalDetailsPage';
 
 setupIonicReact();
 
@@ -45,6 +46,7 @@ const App: React.FC = () => (
         <Route exact path="/">
           <Redirect to="/home" />
         </Route>
+        <Route exact path="/animal/:animalId" component={AnimalDetailsPage} />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
