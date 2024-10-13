@@ -11,7 +11,7 @@ interface AnimalProperties {
     name : string 
     species : string 
     birthdate : string
-    isWild : boolean
+    isVaccinate : boolean
     weight : number
 }
 
@@ -26,6 +26,7 @@ const AnimalDetailsPage: React.FC<ContainerProps> = () => {
         axios.get("http://localhost:3000/animals/" + animalId) // Corrected URL
             .then((res) => {
                 setAnimal(res.data);
+                console.log(res.data)
                 setIsLoading(false);
             })
             .catch((err) => {
@@ -41,7 +42,7 @@ const AnimalDetailsPage: React.FC<ContainerProps> = () => {
     return (
         <IonPage className="animal-page">
             <IonLoading isOpen={isLoading} message="Searching for animal..." spinner="bubbles"/>
-            {animal && 
+            {animal != undefined && 
             <IonCard className="animal-card">
                 <IonCardTitle>Animal: {animal.name}</IonCardTitle>
                 <IonLabel>Species: {animal.species}</IonLabel>
@@ -56,7 +57,7 @@ const AnimalDetailsPage: React.FC<ContainerProps> = () => {
                     </div>
                 </div>
                 <div className="wild-caution-label">
-                    <IonLabel>{animal.isWild ? "CAUTION!!" : "VERY FRIENDLY"}</IonLabel>
+                    <IonLabel>VACCINATE: {animal.isVaccinate ? "✅" : "❌"}</IonLabel>
                 </div>
             </IonCard>
             }

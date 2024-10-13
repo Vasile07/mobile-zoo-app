@@ -13,7 +13,7 @@ interface AnimalProperties {
     name: string,
     species: string,
     birthdate: string,
-    isWild: boolean,
+    isVaccinate: boolean,
     weight: number
 }
 

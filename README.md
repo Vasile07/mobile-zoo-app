@@ -11,7 +11,7 @@
     - **name** : string 
     - **species** : string 
     - **birthdate** : date
-    - **isWild** : boolean
+    - **isVaccinate** : boolean
     - **weight** : double
 
 - User
