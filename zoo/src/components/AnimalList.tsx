@@ -1,10 +1,11 @@
-import { IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonLoading } from "@ionic/react";
+import { IonContent, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonLabel, IonList, IonListHeader, IonLoading } from "@ionic/react";
 import axios from "axios";
 import { act, useEffect, useReducer, useState } from "react";
 import { eye, newspaper } from 'ionicons/icons';
 import "./AnimalList.css";
 import { useHistory } from 'react-router-dom';
-import { newWebSocket } from "../common/apiCalls";
+import { getAllAnimalsApi, getAnimalsFromAPage, newWebSocket } from "../common/apiCalls";
+import useProtector from "../hooks/useProtector";
 
 interface ContainerProps { }
 
@@ -17,42 +18,82 @@ interface AnimalProperties {
     weight: number
 }
 
-interface ActionProperties{
+interface ActionProperties {
     type: string,
-    newAnimal? : AnimalProperties,
-    animals? : AnimalProperties[]
+    newAnimal?: AnimalProperties,
+    animals?: AnimalProperties[]
 }
 
 function reducer(state: AnimalProperties[], action: ActionProperties): AnimalProperties[] {
     switch (action.type) {
-      case 'create_action':
-        if (action.newAnimal) {
-          return [...state, action.newAnimal];
-        }
-        return state;
-  
-      case 'initialize':
-        if (action.animals) {
-          return action.animals;
-        }
-        return state;
-  
-      default:
-        return state;
+        case 'create_action':
+            if (action.newAnimal) {
+                return [...state, action.newAnimal];
+            }
+            return state;
+
+        case 'initialize':
+            if (action.animals) {
+                return action.animals;
+            }
+            return state;
+
+        case 'loading_more_entities':
+            if (action.animals) {
+                return [...state, ...action.animals];
+            }
+            return state;
+
+        default:
+            return state;
     }
-  }
+}
 
 const AnimalList: React.FC<ContainerProps> = () => {
-    const history = useHistory();
+    const [navigate] = useProtector();
     const [isLoading, setIsLoading] = useState(true);
     const [animals, dispatch] = useReducer(reducer, []);
-    // const [animals, setAnimals] = useState<AnimalProperties[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [hasMoreData, setHasMoreData] = useState(true);
+    
+    const loadMore = async (event: any) => {
+        
+        if (isLoading || !hasMoreData) {
+            event.target.complete();
+            return;
+        }
+    
+        setIsLoading(true);
+    
+        try {
+        
+            const res = await getAnimalsFromAPage(currentPage);
+    
+            if (res.data.length > 0) {
+                dispatch({type: 'loading_more_entities', animals: res.data});
+                setCurrentPage(prevPage => prevPage + 1);
+            } else {
+                setHasMoreData(false);
+            }
+        } catch (error) {
+            console.error("Error loading more animals:", error);
+        } finally {
+            setIsLoading(false);
+            event.target.complete();
+        }
+    };
 
     useEffect(() => {
-        const fetchAnimals = async () => {
+        const fetchAnimals = async (page: number) => {
+            setIsLoading(true);
             try {
-                const res = await axios.get("http://localhost:3000/animals");
-                dispatch({type: 'initialize', animals: res.data});
+                const res = await getAnimalsFromAPage(page);
+    
+                if (res.data.length > 0) {
+                    dispatch({type: 'initialize', animals: res.data});
+                } else {
+                    setHasMoreData(false);
+                }
             } catch (error) {
                 console.error("Error fetching animals:", error);
             } finally {
@@ -60,29 +101,33 @@ const AnimalList: React.FC<ContainerProps> = () => {
             }
         };
 
-        fetchAnimals();
-    }, []);
+        fetchAnimals(currentPage);
+        setCurrentPage(currentPage + 1);
+    },[])
+    
 
     useEffect(() => {
-        let closeWebSocket = newWebSocket((data) => {
-            const { event, payload } = data;
-            console.log(event)
-            if (event === 'created') {
-                dispatch({type: 'create_action', newAnimal: payload.animal}); // Use functional update
-            }
-        });
-        return () => {
-            closeWebSocket();
-        };
+        const token = localStorage.getItem('token');
+        if (token) {
+            let closeWebSocket = newWebSocket((data) => {
+                const { event, payload } = data;
+                console.log(event)
+                if (event === 'created') {
+                    dispatch({ type: 'create_action', newAnimal: payload.animal }); // Use functional update
+                }
+            }, token);
+            return () => {
+                closeWebSocket();
+            };
+        }
     }, []);
 
     const handleSeeDetails = (animalId: number) => {
-        history.push(`/animal/${animalId}`);
+        navigate(`/animal/${animalId}`);
     }
 
     return (
-        <div>
-            <IonLoading isOpen={isLoading} message="Loading..." spinner="bubbles" />
+        <IonContent>
             <IonList className="animal-list">
                 <IonListHeader>
                     <IonLabel>Animals</IonLabel>
@@ -96,7 +141,10 @@ const AnimalList: React.FC<ContainerProps> = () => {
                     );
                 })}
             </IonList>
-        </div>
+            <IonInfiniteScroll onIonInfinite={loadMore}>
+          <IonInfiniteScrollContent loadingSpinner="bubbles" loadingText="Loading more data..."></IonInfiniteScrollContent>
+        </IonInfiniteScroll>
+        </IonContent>
     );
 }
 

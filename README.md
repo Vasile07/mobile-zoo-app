@@ -1,5 +1,7 @@
 # ZOO APP
 
+## Intro
+
 ## **Description**
 
 - Development of a **ZOO** management application 

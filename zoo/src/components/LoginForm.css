@@ -1,0 +1,22 @@
+.login-input-form{
+    background-color: white;
+    width: 50%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.input-field{
+    color: black;
+    width: 65%;
+}
+
+ion-button{
+    --background: #Aaa;
+
+    --color: #FFF;
+    width: 30%;
+}

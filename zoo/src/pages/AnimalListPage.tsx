@@ -1,32 +1,24 @@
 import { IonFab, IonFabButton, IonIcon, IonLabel, IonPage } from '@ionic/react';
 import { add } from 'ionicons/icons';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import AnimalList from '../components/AnimalList';
 import AddPagePopup from './AddPagePopup';
 import './Home.css';
 import TabBar from '../components/TabBar';
-import HorizontalNavBar from '../components/HorizontalNavBar';
-import { AuthContext } from '../auth/AuthProvider';
 
 const AnimalListPage: React.FC = () => {
   const [addWindowIsOpen, setAddWindowIsOpen] = useState(false);
-
-  const { isAuthenticated, isAuthenticating, login, logout, authenticationError } = useContext(AuthContext);
-
+  
   const handleAddAnimal = () => {
-    setAddWindowIsOpen(true);
+    setAddWindowIsOpen(true); // Open the modal
   };
 
   const closeAddModal = () => {
-    setAddWindowIsOpen(false);
+    setAddWindowIsOpen(false); // Close the modal
   };
 
   return (
     <IonPage className='home-page'>
-      <HorizontalNavBar logout={() => {
-        if (logout)
-          logout()
-      }} />
       <IonLabel className='welcome-label'>WELCOME TO THE ZOO</IonLabel>
       <AnimalList />
       <IonFab slot="fixed" vertical="bottom" horizontal="end">
@@ -34,7 +26,8 @@ const AnimalListPage: React.FC = () => {
           <IonIcon icon={add} />
         </IonFabButton>
       </IonFab>
-      <AddPagePopup onOpen={addWindowIsOpen} onClose={closeAddModal} />
+      <TabBar/>
+      <AddPagePopup onOpen={addWindowIsOpen} onClose={closeAddModal}/>
     </IonPage>
   );
 };

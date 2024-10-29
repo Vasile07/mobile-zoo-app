@@ -1,21 +1,25 @@
-ion-item::part(native) {
-    background: #86c0de;
-    color: #000;
-    width: 70%; 
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    gap: 10px; 
+.animal-list ion-item {
+    --background: #86c0de; /* Background color for ion-item */
+    --color: #000; /* Text color */
+    --border-radius: 5px; /* Border radius for rounded corners */
+    width: 70%; /* Custom width */
 }
 
 
 .animal-list {
-    width: "100%";
-    background-color: transparent;
-    /* display: flex; */
-    /* flex-direction: column; Stack items vertically */
+    width: 100%; /* Ensure full width */
+    background-color: transparent !important; /* Set a visible background color */
+    gap: 10px; /* Adds spacing between flex items */
+    display: flex; /* Ensure the gap works by enabling flexbox */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center;
     align-items: center;
-    justify-content: flex-start; 
+}
+
+.animal-list ion-label{
+    color: black;
+}
+
+ion-content{
+    --background: transparent;
 }

@@ -1,0 +1,23 @@
+.addPageContainer {
+    background-color: #fff;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addPageContainer ion-input{
+    margin: 10px auto;
+    color: black;
+    width: 80%;
+}
+
+.addPageContainer ion-button{
+    background-color: transparent;
+}
+
+.addPageContainer ion-checkbox{
+    margin: 10px auto;
+    /* width: 80%; */
+    color: black;
+}
