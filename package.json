@@ -1,5 +1,10 @@
 {
   "dependencies": {
-    "@capacitor/network": "^6.0.2"
+    "@capacitor/camera": "^6.1.0",
+    "@capacitor/filesystem": "^6.0.1",
+    "@capacitor/geolocation": "^6.0.1",
+    "@capacitor/google-maps": "^6.0.1",
+    "@capacitor/network": "^6.0.2",
+    "@ionic/pwa-elements": "^3.3.0"
   }
 }
