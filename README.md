@@ -1,6 +1,7 @@
 # ZOO APP
 
-## Intro
+## Server
+[here](https://github.com/Vasile07/mobile-server)
 
 ## **Description**
 
